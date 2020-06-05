@@ -1,0 +1,67 @@
+Stuff to implement:
+
+---------------------------------------
+batteries:
+
+rotate_args
+static_dispatch
+ArenaAllocator
+STRONG_TYPEDEF
+
+---------------------------------------
+task utils:
+
+spawn
+DEFAULT_CALLBACK()
+CALLBACK(memfun)
+BIND_CALLBACK(memfun, args...)
+RESUME_AT(memfun)
+ON_SUCCESS_RESUME_AT(memfun)
+TASK_RESULTS()
+
+tasks:
+
+AsyncSharedTask<T>
+AsyncUniqueTask<T>
+AsyncSPSC<ChannelT> -> returns AsyncUnique<Sender>, AsyncUnique<Receiver>
+AsyncMPSC<ChannelT> -> returns AsyncShared<Sender>, AsyncUnique<Receiver>
+ServiceTask<T>
+AsyncPool<T>
+
+low level primitives:
+
+Guarded<T>
+
+Handler wrappers
+ - allocate with handler
+ - 
+
+Trampoline
+
+ConstBufferView/MutableBufferView
+buffer utilities:
+ - drop_front, drop_back
+ - take_front, take_back
+
+
+channels:
+
+Channel<T>
+CountingChannel
+ByteChannel
+ServiceChannel
+BroadcastChannel<T> (like tokio::async::watch)
+
+SendView
+RecvView
+
+
+
+UniqueByteChannel ->
+
+auto start() {
+  AsyncUnique<RecvView> receiver = spawn<AsyncUniqueTask<RecvView>>(&this->channel_, DEFAULT_CALLBACK());
+  AsyncUnique<SendView> sender = spawn<AsyncUniqueTask<SendView>>(&this->channel_, DEFAULT_CALLBACK());
+
+  return std::make_tuple(sender, receiver);
+}
